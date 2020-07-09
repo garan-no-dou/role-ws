@@ -8,6 +8,7 @@ public class RoleWsApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(RoleWsApplication.class, args);
+
 	}
 
 }
