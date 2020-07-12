@@ -32,7 +32,7 @@ jobs:
       - save_cache: # saves the project dependencies
           paths:
             - ~/.m2
-          key: circleci-demo-java-spring-{{ checksum "pom.xml" }}
+          key: role-ws-cache-{{ checksum "pom.xml" }}
 
       - run: mvn install
 
