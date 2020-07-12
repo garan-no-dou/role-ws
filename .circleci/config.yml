@@ -34,7 +34,5 @@ jobs:
             - ~/.m2
           key: role-ws-cache-{{ checksum "pom.xml" }}
 
-      - run: mvn install
-
       # run tests!
       - run: mvn test
