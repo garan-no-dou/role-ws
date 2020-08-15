@@ -1,19 +1,26 @@
 package com.garannodou.role.domain;
 
+import lombok.Getter;
+
 import java.net.URI;
 import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
 
 public class User {
+    @Getter
     private UUID id;
 
+    @Getter
     private String userName; //TODO: Encrypt field
 
+    @Getter
     private String nickName; //TODO: Ask to user, by default userName
 
+    @Getter
     private String email; //TODO: Encrypt field
 
+    @Getter
     private URI imageUrl;
 
     public User(String userName, String nickName, String email, URI imageUrl) {
@@ -25,7 +32,7 @@ public class User {
             nickName = userName;
         }
 
-        if (email == null || email.isEmpty()) { //TODO: Check email pattern
+        if (email == null || email.isBlank()) { //TODO: Check email pattern
             throw new IllegalStateException("Email is invalid");
         }
 
@@ -35,4 +42,5 @@ public class User {
         this.email = email;
         this.imageUrl = imageUrl;
     }
+
 }
