@@ -1,12 +1,12 @@
 package com.garannodou.role.domain;
 
-import org.junit.Test;
+import org.junit.Test; // TODO: Use Junit5, like in RoleWSApplicationTests, not Junit 4
 
 import java.net.URI;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertThat; // TODO: Use assertThat from hamcrest, this one is deprecated.
 
 public class UserTest {
 
