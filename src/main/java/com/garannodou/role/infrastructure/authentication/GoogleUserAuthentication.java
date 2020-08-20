@@ -1,7 +1,5 @@
 package com.garannodou.role.infrastructure.authentication;
 
-import lombok.Getter;
-
 import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
