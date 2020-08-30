@@ -51,7 +51,6 @@ class UserControllerTest {
         GoogleAuthRequest googleAuthRequest = new GoogleAuthRequest();
 
         GoogleBasicProfile basicProfile = googleAuthRequest.getGoogleBasicProfile();
-        basicProfile.setId("some-google-id");
         basicProfile.setName("Sanguinius");
         basicProfile.setGivenName("Blood Angels Primarch");
         basicProfile.setFamilyName("Blood Angels");

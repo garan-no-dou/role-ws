@@ -20,8 +20,6 @@ public class GoogleAuthRequest {
     @Setter
     class GoogleBasicProfile {
         @NotNull
-        private String id;
-        @NotNull
         private String name;
         @NotNull
         private String givenName;
