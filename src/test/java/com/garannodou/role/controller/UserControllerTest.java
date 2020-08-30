@@ -1,17 +1,15 @@
 package com.garannodou.role.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.garannodou.role.controller.GoogleAuthRequest.GoogleAuthResponse;
+import com.garannodou.role.controller.GoogleAuthRequest.GoogleAuth;
 import com.garannodou.role.controller.GoogleAuthRequest.GoogleBasicProfile;
 import com.garannodou.role.infrastructure.authentication.GoogleUserAuthenticationService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -21,12 +19,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 
-@ExtendWith(SpringExtension.class)
 @WebMvcTest(UserController.class)
 class UserControllerTest {
 
-    // TODO: Input validation cases
-    // TODO: Call service and return 201
+    // TODO: Input validation cases return 400
 
     @Autowired
     MockMvc mockMvc;
@@ -52,7 +48,9 @@ class UserControllerTest {
     }
 
     private GoogleAuthRequest createSampleGoogleAuthRequest() {
-        GoogleBasicProfile basicProfile = new GoogleBasicProfile();
+        GoogleAuthRequest googleAuthRequest = new GoogleAuthRequest();
+
+        GoogleBasicProfile basicProfile = googleAuthRequest.getGoogleBasicProfile();
         basicProfile.setId("some-google-id");
         basicProfile.setName("Sanguinius");
         basicProfile.setGivenName("Blood Angels Primarch");
@@ -60,17 +58,14 @@ class UserControllerTest {
         basicProfile.setImageUrl("https://www.test.com/image.png");
         basicProfile.setEmail("test.test@gmail.com");
 
-        GoogleAuthResponse authResponse = new GoogleAuthResponse();
-        authResponse.setAccessToken("someAccessToken");
-        authResponse.setIdToken("someIdToken");
-        authResponse.setScope("scope");
-        authResponse.setExpiresIn("1000");
-        authResponse.setFirstIssuedAt("firstIssuedAt");
-        authResponse.setExpiresAt("expiresAt");
+        GoogleAuth googleAuth = googleAuthRequest.getGoogleAuth();
+        googleAuth.setAccessToken("someAccessToken");
+        googleAuth.setIdToken("someIdToken");
+        googleAuth.setScope("scope");
+        googleAuth.setExpiresIn("1000");
+        googleAuth.setFirstIssuedAt("firstIssuedAt");
+        googleAuth.setExpiresAt("expiresAt");
 
-        GoogleAuthRequest googleAuthRequest = new GoogleAuthRequest();
-        googleAuthRequest.setGoogleBasicProfile(basicProfile);
-        googleAuthRequest.setGoogleAuthResponse(authResponse);
         return googleAuthRequest;
     }
 
