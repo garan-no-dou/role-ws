@@ -1,6 +1,6 @@
 package com.garannodou.role.domain;
 
-import org.junit.Test;
+import org.junit.Test; // TODO: Replace "org.junit.jupiter.Test" and update tests
 
 import java.net.URI;
 
@@ -40,5 +40,17 @@ public class UserTest {
     @Test(expected = IllegalStateException.class)
     public void testFailsWhenTheEmailIsBlank() {
         User user = new User("username", "nickname", " ", URI.create("https://uri-example.com"));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testFailsWhenEmailDoesNotFollowRegex() {
+        String invalidEmail = "invalidEmail";
+        new User("username", "nickname", invalidEmail, URI.create("https://uri-example.com"));
+    }
+
+    @Test
+    public void testOkayWhenEmailFollowsRegex() {
+        String correctEmail = "correct@email.com";
+        new User("username", "nickname", correctEmail, URI.create("https://uri-example.com"));
     }
 }
