@@ -1,6 +1,7 @@
 package com.garannodou.role.domain;
 
 import org.junit.Test; // TODO: Replace "org.junit.jupiter.Test" and update tests
+import org.junit.jupiter.params.ParameterizedTest;
 
 import java.net.URI;
 
@@ -8,6 +9,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
+// TODO: Refactor tests using Junit 5
 public class UserTest {
 
     @Test(expected = IllegalStateException.class)
@@ -52,5 +54,29 @@ public class UserTest {
     public void testOkayWhenEmailFollowsRegex() {
         String correctEmail = "correct@email.com";
         new User("username", "nickname", correctEmail, URI.create("https://uri-example.com"));
+    }
+
+    @Test
+    public void testUsernameCanOnlyContainAlphanumerics () {
+        String correctUsername = "Valid_username-89";
+        new User(correctUsername, "nickname", "correct@email.com", URI.create("https://uri-example.com"));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testUsernameCanNotContainSpecialCharacters () {
+        String invalidUsername = "invalid!user?name";
+        new User(invalidUsername, "nickname", "correct@email.com", URI.create("https://uri-example.com"));
+    }
+
+    @Test
+    public void testNicknameCanOnlyContainAlphanumerics () {
+        String correctNickname = "Valid_nickname-89";
+        new User("username", correctNickname, "correct@email.com", URI.create("https://uri-example.com"));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testNicknameCanNotContainSpecialCharacters () {
+        String invalidNickname = "invalid!nickname?name";
+        new User("username", invalidNickname, "correct@email.com", URI.create("https://uri-example.com"));
     }
 }
