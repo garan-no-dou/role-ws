@@ -32,7 +32,7 @@ class UserControllerTest {
 
     @Test
     public void testCallsServiceAndReturns201WithAuthToken() throws Exception {
-        GoogleAuthRequest googleAuthRequest = createSampleGoogleAuthRequest();
+        GoogleAuthRequest googleAuthRequest = createValidGoogleAuthRequest();
         when(authenticationService.authenticate(any(GoogleAuthRequest.class)))
                 .thenReturn("Authenticated. Name: " + googleAuthRequest.getGoogleBasicProfile().getName());
 
@@ -42,16 +42,16 @@ class UserControllerTest {
                 .andReturn()
                 .getResponse();
 
-        verify(authenticationService, times(1)).authenticate(any(GoogleAuthRequest.class));
         assertThat(response.getStatus(), is(HttpStatus.CREATED.value()));
         assertThat(response.getContentAsString(), is("Authenticated. Name: Sanguinius"));
+        verify(authenticationService, times(1)).authenticate(any(GoogleAuthRequest.class));
     }
 
     @Test
-    public void testValidationErrorWhenInvalidEmail() throws Exception {
-        GoogleAuthRequest request = new GoogleAuthRequest();
-        GoogleBasicProfile profile = request.getGoogleBasicProfile();
-        profile.setEmail("invalidEmail");
+    public void testValidationErrorWhenEmailIsInvalid() throws Exception {
+        GoogleAuthRequest request = createValidGoogleAuthRequest();
+        GoogleBasicProfile googleBasicProfile = request.getGoogleBasicProfile();
+        googleBasicProfile.setEmail("invalidEmail");
 
         MockHttpServletResponse response = mockMvc.perform(post("/authentication")
                 .contentType(APPLICATION_JSON)
@@ -62,7 +62,67 @@ class UserControllerTest {
         assertThat(response.getStatus(), is(HttpStatus.BAD_REQUEST.value()));
     }
 
-    private GoogleAuthRequest createSampleGoogleAuthRequest() {
+    @Test
+    public void testValidationErrorWhenGivenNameIsInvalid() throws Exception {
+        GoogleAuthRequest request = createValidGoogleAuthRequest();
+        GoogleBasicProfile googleBasicProfile = request.getGoogleBasicProfile();
+        googleBasicProfile.setGivenName("invalid!? given *name");
+
+        MockHttpServletResponse response = mockMvc.perform(post("/authentication")
+                .contentType(APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+                .andReturn()
+                .getResponse();
+
+        assertThat(response.getStatus(), is(HttpStatus.BAD_REQUEST.value()));
+    }
+
+    @Test
+    public void testValidationErrorWhenNameIsInvalid() throws Exception {
+        GoogleAuthRequest request = createValidGoogleAuthRequest();
+        GoogleBasicProfile googleBasicProfile = request.getGoogleBasicProfile();
+        googleBasicProfile.setName("invalid!? *name");
+
+        MockHttpServletResponse response = mockMvc.perform(post("/authentication")
+                .contentType(APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+                .andReturn()
+                .getResponse();
+
+        assertThat(response.getStatus(), is(HttpStatus.BAD_REQUEST.value()));
+    }
+
+    @Test
+    public void testValidationErrorWhenFamilyNameIsInvalid() throws Exception {
+        GoogleAuthRequest request = createValidGoogleAuthRequest();
+        GoogleBasicProfile googleBasicProfile = request.getGoogleBasicProfile();
+        googleBasicProfile.setFamilyName("invalid!?family *name");
+
+        MockHttpServletResponse response = mockMvc.perform(post("/authentication")
+                .contentType(APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+                .andReturn()
+                .getResponse();
+
+        assertThat(response.getStatus(), is(HttpStatus.BAD_REQUEST.value()));
+    }
+
+    @Test
+    public void testValidationErrorWhenURLIsInvalid() throws Exception {
+        GoogleAuthRequest request = createValidGoogleAuthRequest();
+        GoogleBasicProfile googleBasicProfile = request.getGoogleBasicProfile();
+        googleBasicProfile.setImageUrl("this is notA URL");
+
+        MockHttpServletResponse response = mockMvc.perform(post("/authentication")
+                .contentType(APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+                .andReturn()
+                .getResponse();
+
+        assertThat(response.getStatus(), is(HttpStatus.BAD_REQUEST.value()));
+    }
+
+    private GoogleAuthRequest createValidGoogleAuthRequest() {
         GoogleAuthRequest googleAuthRequest = new GoogleAuthRequest();
 
         GoogleBasicProfile basicProfile = googleAuthRequest.getGoogleBasicProfile();
