@@ -3,6 +3,8 @@ package com.garannodou.role.controller;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 // TODO: Add concrete types and validations to each field, once the content is clearer.
@@ -10,6 +12,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class GoogleAuthRequest {
 
+    @Valid
     private GoogleBasicProfile googleBasicProfile = new GoogleBasicProfile();
     private GoogleAuth googleAuth = new GoogleAuth();
 
@@ -28,6 +31,7 @@ public class GoogleAuthRequest {
         @NotNull
         private String imageUrl;
         @NotNull
+        @Email(regexp = "\"^(.+)@(.+)$\"")
         private String email;
 
         public GoogleBasicProfile() {

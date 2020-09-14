@@ -47,6 +47,21 @@ class UserControllerTest {
         assertThat(response.getContentAsString(), is("Authenticated. Name: Sanguinius"));
     }
 
+    @Test
+    public void testValidationErrorWhenInvalidEmail() throws Exception {
+        GoogleAuthRequest request = new GoogleAuthRequest();
+        GoogleBasicProfile profile = request.getGoogleBasicProfile();
+        profile.setEmail("invalidEmail");
+
+        MockHttpServletResponse response = mockMvc.perform(post("/authentication")
+                .contentType(APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+                .andReturn()
+                .getResponse();
+
+        assertThat(response.getStatus(), is(HttpStatus.BAD_REQUEST.value()));
+    }
+
     private GoogleAuthRequest createSampleGoogleAuthRequest() {
         GoogleAuthRequest googleAuthRequest = new GoogleAuthRequest();
 

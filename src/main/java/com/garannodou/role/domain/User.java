@@ -31,7 +31,7 @@ public class User {
         validateUsername(username);
         validateEmail(email);
 
-        if (nickName == null || nickName.isBlank()) {
+        if (nickName == null || nickName.isBlank()) { // TODO: Replace nickname parameter by Optional<String>
             nickName = username;
         } else {
             validateNickname(nickName);
