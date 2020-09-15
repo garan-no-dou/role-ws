@@ -39,7 +39,7 @@ public class GoogleAuthRequest {
         @URL
         private String imageUrl;
         @NotNull
-        @Email(regexp = "^[A-Za-z0-9+_.-]+@(.+)$",
+        @Email(regexp = "^[A-Za-z0-9+_.-]+@([A-Za-z0-9.])+$",
                 message = "Email has invalid format. Expected format: ^[A-Za-z0-9+_.-]+@(.+)$")
         private String email;
 
