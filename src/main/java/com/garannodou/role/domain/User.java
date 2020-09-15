@@ -12,32 +12,30 @@ public class User {
     private UUID id;
 
     @Getter
-    private String userName; //TODO: Encrypt field
+    private String userName; // TODO: Encrypt field
 
     @Getter
-    private String nickName; //TODO: Ask to user, by default userName
+    private String nickName; // TODO: Ask to user, by default userName
 
     @Getter
-    private String email; //TODO: Encrypt field
+    private String email; // TODO: Encrypt field
 
     @Getter
     private URI imageUrl;
 
-    public User(String userName, String nickName, String email, URI imageUrl) {
-        if (userName == null || userName.isBlank()) {
+    public User(String username, String nickName, String email, URI imageUrl) {
+        if (username == null || username.isBlank()) {
             throw new IllegalStateException("UserName is invalid");
         }
-
-        if (nickName == null || nickName.isBlank()) {
-            nickName = userName;
+        if (email == null || email.isBlank()) {
+            throw new IllegalStateException("Email is null or blank");
         }
-
-        if (email == null || email.isBlank()) { //TODO: Check email pattern
-            throw new IllegalStateException("Email is invalid");
+        if (nickName == null || nickName.isBlank()) {
+            nickName = username;
         }
 
         this.id = randomUUID();
-        this.userName = userName;
+        this.userName = username;
         this.nickName = nickName;
         this.email = email;
         this.imageUrl = imageUrl;
