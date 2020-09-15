@@ -1,6 +1,7 @@
 package com.garannodou.role.domain;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.net.URI;
 
@@ -8,17 +9,20 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
-// TODO: Refactor tests using Junit 5
 public class UserTest {
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testFailsWhenTheUserNameIsNull() {
-        User user = new User(null, "nickname", "user@email.com", URI.create("https://uri-example.com"));
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            new User(null, "nickname", "user@email.com", URI.create("https://uri-example.com"));
+        });
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testFailsWhenTheUserNameIsBlank() {
-        User user = new User(" ", "nickname", "user@email.com", URI.create("https://uri-example.com"));
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            new User(" ", "nickname", "user@email.com", URI.create("https://uri-example.com"));
+        });
     }
 
     @Test
@@ -33,14 +37,18 @@ public class UserTest {
         assertThat(user.getNickName(), is(equalTo(user.getUserName())));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testFailsWhenTheEmailIsNull() {
-        User user = new User("username", "nickname", null, URI.create("https://uri-example.com"));
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            new User("username", "nickname", null, URI.create("https://uri-example.com"));
+        });
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testFailsWhenTheEmailIsBlank() {
-        User user = new User("username", "nickname", " ", URI.create("https://uri-example.com"));
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            new User("username", "nickname", " ", URI.create("https://uri-example.com"));
+        });
     }
 
 }
