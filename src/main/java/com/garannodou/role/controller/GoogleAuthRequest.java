@@ -22,7 +22,7 @@ public class GoogleAuthRequest {
 
     @Getter
     @Setter
-    class GoogleBasicProfile {
+    public class GoogleBasicProfile {
         @NotNull
         @Pattern(regexp = "^[a-zA-Z0-9-_\\s]+$",
                 message = "Name has invalid format. Expected format: ^[a-zA-Z0-9-_\\s]+$")

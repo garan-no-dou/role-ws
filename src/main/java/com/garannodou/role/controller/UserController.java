@@ -1,6 +1,6 @@
 package com.garannodou.role.controller;
 
-import com.garannodou.role.infrastructure.authentication.GoogleUserAuthenticationService;
+import com.garannodou.role.infrastructure.authentication.GoogleAuthenticationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,9 +14,9 @@ import javax.validation.Valid;
 @CrossOrigin(origins = "${app.frontend.url}")
 public class UserController {
 
-    private GoogleUserAuthenticationService authenticationService;
+    private GoogleAuthenticationService authenticationService;
 
-    public UserController(GoogleUserAuthenticationService authenticationService) {
+    public UserController(GoogleAuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
 
