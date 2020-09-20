@@ -1,9 +1,11 @@
 package com.garannodou.role.service;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.net.URI;
 
+@EqualsAndHashCode
 public class UserCreateDTO {
     @Getter
     private String userName;

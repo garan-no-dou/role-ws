@@ -49,7 +49,7 @@ public class GoogleAuthRequest {
 
     @Getter
     @Setter
-    class GoogleAuth {
+    public class GoogleAuth {
         // TODO: Add validations to each field, once the content is clearer.
         @NotNull
         private String accessToken;
