@@ -56,7 +56,7 @@ class GoogleAuthenticationServiceTest {
         assertThat(authenticationResponse, is("Authenticated Sanguinius"));
     }
 
-    private GoogleAuthRequest createValidGoogleAuthRequest() { // TODO: Extract to utility class?
+    private GoogleAuthRequest createValidGoogleAuthRequest() {
         GoogleAuthRequest googleAuthRequest = new GoogleAuthRequest();
 
         GoogleAuthRequest.GoogleBasicProfile basicProfile = googleAuthRequest.getGoogleBasicProfile();
