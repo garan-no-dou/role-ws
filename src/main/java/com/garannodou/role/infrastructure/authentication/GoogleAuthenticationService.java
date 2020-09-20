@@ -26,7 +26,6 @@ public class GoogleAuthenticationService {
         User user = null;
         if (maybeUser.isEmpty()) {
             UserCreateDTO userCreateDTO = createUserCreateDTOFrom(googleBasicProfile);
-
             user = userService.create(userCreateDTO);
         } else {
             user = maybeUser.get();

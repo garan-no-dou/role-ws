@@ -20,7 +20,7 @@ public class UserController {
         this.authenticationService = authenticationService;
     }
 
-    @PostMapping("/authentication")
+    @PostMapping("/authentication") // TODO: Change URL to reflect Google
     public ResponseEntity<String> authenticateGoogleUser(@RequestBody @Valid GoogleAuthRequest request) {
         String response = authenticationService.authenticate(request);
 
