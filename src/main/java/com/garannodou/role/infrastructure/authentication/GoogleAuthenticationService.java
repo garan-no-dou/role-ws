@@ -13,6 +13,8 @@ import java.util.Optional;
 @Service
 public class GoogleAuthenticationService {
     private UserService userService;
+    // TODO: Use it Future Mañel, don't fuck me men
+    private JWTGenerator jwtGenerator;
 
     public GoogleAuthenticationService(UserService userService) {
         this.userService = userService;
