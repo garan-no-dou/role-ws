@@ -3,7 +3,7 @@ package com.garannodou.role.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.garannodou.role.controller.GoogleAuthRequest.GoogleAuth;
 import com.garannodou.role.controller.GoogleAuthRequest.GoogleBasicProfile;
-import com.garannodou.role.infrastructure.authentication.GoogleAuthenticationService;
+import com.garannodou.role.infrastructure.authentication.GoogleAuthenticationFacade;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -27,7 +27,7 @@ class UserControllerTest {
     @Autowired
     MockMvc mockMvc;
     @MockBean
-    GoogleAuthenticationService authenticationService;
+    GoogleAuthenticationFacade authenticationService;
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Test

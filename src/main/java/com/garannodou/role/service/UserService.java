@@ -2,6 +2,7 @@ package com.garannodou.role.service;
 
 import com.garannodou.role.domain.User;
 import com.garannodou.role.domain.UserRepository;
+import com.garannodou.role.service.exceptions.EmailAlreadyExistsException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
