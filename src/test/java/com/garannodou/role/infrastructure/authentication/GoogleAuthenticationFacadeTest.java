@@ -14,15 +14,17 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
 
-class GoogleAuthenticationServiceTest {
+class GoogleAuthenticationFacadeTest {
 
     private UserService userServiceMock;
-    private GoogleAuthenticationService sut;
+    private GoogleAuthenticationFacade sut;
+    private JWTGenerator jwtGenerator;
 
     @BeforeEach
     void setUp() {
         userServiceMock = mock(UserService.class);
-        sut = new GoogleAuthenticationService(userServiceMock);
+        jwtGenerator = new JWTGeneratorStub();
+        sut = new GoogleAuthenticationFacade(userServiceMock, jwtGenerator, "localhost");
     }
 
     @Test
@@ -36,7 +38,7 @@ class GoogleAuthenticationServiceTest {
         String authenticationResponse = sut.authenticate(authRequest);
 
         // Then
-        assertThat(authenticationResponse, is("Authenticated Sanguinius"));
+        assertThat(authenticationResponse, is("json-web-token"));
     }
 
     @Test
@@ -53,7 +55,7 @@ class GoogleAuthenticationServiceTest {
         // Then
         UserCreateDTO expectedDto = new UserCreateDTO("Sanguinius", "Sanguinius", "test.test@gmail.com", URI.create("https://www.test.com/image.png"));
         verify(userServiceMock, times(1)).create(expectedDto);
-        assertThat(authenticationResponse, is("Authenticated Sanguinius"));
+        assertThat(authenticationResponse, is("json-web-token"));
     }
 
     private GoogleAuthRequest createValidGoogleAuthRequest() {
@@ -75,5 +77,13 @@ class GoogleAuthenticationServiceTest {
         googleAuth.setExpiresAt("expiresAt");
 
         return googleAuthRequest;
+    }
+}
+
+class JWTGeneratorStub extends JWTGenerator {
+
+    @Override
+    public String generateTokenForUser(TokenGenerationParams params) {
+        return "json-web-token";
     }
 }

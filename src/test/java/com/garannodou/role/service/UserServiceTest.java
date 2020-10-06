@@ -2,6 +2,7 @@ package com.garannodou.role.service;
 
 import com.garannodou.role.domain.User;
 import com.garannodou.role.domain.UserRepository;
+import com.garannodou.role.service.exceptions.EmailAlreadyExistsException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
