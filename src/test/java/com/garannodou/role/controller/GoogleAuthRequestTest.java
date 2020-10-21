@@ -2,15 +2,16 @@ package com.garannodou.role.controller;
 
 import com.garannodou.role.controller.GoogleAuthRequest.GoogleAuth;
 import com.garannodou.role.controller.GoogleAuthRequest.GoogleBasicProfile;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.validation.ConstraintViolation;
+import javax.validation.Path;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -22,12 +23,21 @@ public class GoogleAuthRequestTest {
     GoogleBasicProfile field tests
      */
     private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+    private GoogleAuthRequest googleAuthRequest;
+    private GoogleBasicProfile googleBasicProfile;
+    private GoogleAuth googleAuth;
+
+    @BeforeEach
+    void setUp() {
+        googleAuthRequest = createValidGoogleAuthRequest();
+        googleBasicProfile = googleAuthRequest.getGoogleBasicProfile();
+        googleAuth = googleAuthRequest.getGoogleAuth();
+    }
 
     @Test
     public void testNameLengthIsInvalidWhenIsTooShort() {
         //Given
-        GoogleAuthRequest googleAuthRequest = createValidGoogleAuthRequest();
-        GoogleBasicProfile googleBasicProfile = googleAuthRequest.getGoogleBasicProfile();
+
         //When
         googleBasicProfile.setName("u");
 
@@ -35,18 +45,12 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleBasicProfile>> constraintViolations =
                 new ArrayList<>(validator.validate(googleBasicProfile));
 
-        assertThat(constraintViolations.size(), is(1));
-
-        String propertyThatFais = constraintViolations.get(0).getPropertyPath().toString();
-
-        assertThat(propertyThatFais, is("name"));
+        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "name");
     }
 
     @Test
     public void testNameLengthIsInvalidWhenIsTooLong() {
         //Given
-        GoogleAuthRequest googleAuthRequest = createValidGoogleAuthRequest();
-        GoogleBasicProfile googleBasicProfile = googleAuthRequest.getGoogleBasicProfile();
 
         //When
         googleBasicProfile.setName("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
@@ -55,37 +59,26 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleBasicProfile>> constraintViolations =
                 new ArrayList<>(validator.validate(googleBasicProfile));
 
-        assertThat(constraintViolations.size(), is(1));
-
-        String propertyThatFails = constraintViolations.get(0).getPropertyPath().toString();
-
-        assertThat(propertyThatFails, is("name"));
+        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "name");
     }
 
     @Test
     public void testGivenNameLengthIsInvalidWhenIsTooShort() {
         //Given
-        GoogleAuthRequest googleAuthRequest = createValidGoogleAuthRequest();
-        GoogleBasicProfile googleBasicProfile = googleAuthRequest.getGoogleBasicProfile();
 
         //When
         googleBasicProfile.setGivenName("u");
 
         //Then
-        List<ConstraintViolation<GoogleAuthRequest.GoogleBasicProfile>>constraintViolations=
+        List<ConstraintViolation<GoogleAuthRequest.GoogleBasicProfile>> constraintViolations =
                 new ArrayList<>(validator.validate(googleBasicProfile));
 
-        assertThat(constraintViolations.size(),is(1));
-
-        String propertyThatFails = constraintViolations.get(0).getPropertyPath().toString();
-        assertThat(propertyThatFails,is("givenName"));
+        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "givenName");
     }
 
     @Test
     public void testGivenNameLengthIsInvalidWhenIsTooLong() {
         //Given
-        GoogleAuthRequest googleAuthRequest = createValidGoogleAuthRequest();
-        GoogleBasicProfile googleBasicProfile = googleAuthRequest.getGoogleBasicProfile();
 
         //When
         googleBasicProfile.setGivenName("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
@@ -94,18 +87,12 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleBasicProfile>> constraintViolations =
                 new ArrayList<>(validator.validate(googleBasicProfile));
 
-        assertThat(constraintViolations.size(), is(1));
-
-        String propertyThatFails = constraintViolations.get(0).getPropertyPath().toString();
-
-        assertThat(propertyThatFails, is("givenName"));
+        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "givenName");
     }
 
     @Test
     public void testFamilyNameLengthIsInvalidWhenIsTooShort() {
         //Given
-        GoogleAuthRequest googleAuthRequest = createValidGoogleAuthRequest();
-        GoogleBasicProfile googleBasicProfile = googleAuthRequest.getGoogleBasicProfile();
 
         //When
         googleBasicProfile.setFamilyName("u");
@@ -114,18 +101,12 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleBasicProfile>> constraintViolations =
                 new ArrayList<>(validator.validate(googleBasicProfile));
 
-        assertThat(constraintViolations.size(), is(1));
-
-        String propertyThatFails = constraintViolations.get(0).getPropertyPath().toString();
-
-        assertThat(propertyThatFails, is("familyName"));
+        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "familyName");
     }
 
     @Test
     public void testFamilyNameLengthIsInvalidWhenIsTooLong() {
         //Given
-        GoogleAuthRequest googleAuthRequest = createValidGoogleAuthRequest();
-        GoogleBasicProfile googleBasicProfile = googleAuthRequest.getGoogleBasicProfile();
 
         //When
         googleBasicProfile.setFamilyName("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
@@ -134,11 +115,7 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleBasicProfile>> constraintViolations =
                 new ArrayList<>(validator.validate(googleBasicProfile));
 
-        assertThat(constraintViolations.size(), is(1));
-
-        String propertyThatFails = constraintViolations.get(0).getPropertyPath().toString();
-
-        assertThat(propertyThatFails, is("familyName"));
+        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "familyName");
     }
 
     /*
@@ -147,8 +124,6 @@ public class GoogleAuthRequestTest {
     @Test
     public void testAccessTokenLengthIsInvalidWhenIsTooShort() {
         // Given
-        GoogleAuthRequest googleAuthRequest = createValidGoogleAuthRequest();
-        GoogleAuth googleAuth = googleAuthRequest.getGoogleAuth();
 
         // When
         googleAuth.setAccessToken("u");
@@ -157,18 +132,12 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        assertThat(constraintViolations.size(), is(1));
-
-        String propertyThatFails = constraintViolations.get(0).getPropertyPath().toString();
-
-        assertThat(propertyThatFails, is("accessToken"));
+        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "accessToken");
     }
 
     @Test
     public void testAccessTokenLengthIsInvalidWhenIsTooLong() {
         // Given
-        GoogleAuthRequest googleAuthRequest = createValidGoogleAuthRequest();
-        GoogleAuth googleAuth = googleAuthRequest.getGoogleAuth();
 
         // When
         googleAuth.setAccessToken("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
@@ -177,18 +146,12 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        assertThat(constraintViolations.size(), is(1));
-
-        String propertyThatFails = constraintViolations.get(0).getPropertyPath().toString();
-
-        assertThat(propertyThatFails, is("accessToken"));
+        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "accessToken");
     }
 
     @Test
     public void testIdTokenLengthIsvalidWhenIsTooShort() {
         // Given
-        GoogleAuthRequest googleAuthRequest = createValidGoogleAuthRequest();
-        GoogleAuth googleAuth = googleAuthRequest.getGoogleAuth();
 
         // When
         googleAuth.setIdToken("u");
@@ -197,18 +160,12 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        assertThat(constraintViolations.size(), is(1));
-
-        String propertyThatFails = constraintViolations.get(0).getPropertyPath().toString();
-
-        assertThat(propertyThatFails, is("idToken"));
+        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "idToken");
     }
 
     @Test
     public void testIdTokenLengthIsInvalidWhenIsTooLong() {
         // Given
-        GoogleAuthRequest googleAuthRequest = createValidGoogleAuthRequest();
-        GoogleAuth googleAuth = googleAuthRequest.getGoogleAuth();
 
         //When
         googleAuth.setIdToken("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
@@ -217,18 +174,12 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        assertThat(constraintViolations.size(), is(1));
-
-        String propertyThatFails = constraintViolations.get(0).getPropertyPath().toString();
-
-        assertThat(propertyThatFails, is("idToken"));
+        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "idToken");
     }
 
     @Test
     public void testScopeLengthIsInvalidWhenIsTooShort() {
         // Given
-        GoogleAuthRequest googleAuthRequest = createValidGoogleAuthRequest();
-        GoogleAuth googleAuth = googleAuthRequest.getGoogleAuth();
 
         //When
         googleAuth.setScope("");
@@ -237,18 +188,12 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        assertThat(constraintViolations.size(), is(1));
-
-        String propertyThatFails = constraintViolations.get(0).getPropertyPath().toString();
-
-        assertThat(propertyThatFails, is("scope"));
+        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "scope");
     }
 
     @Test
     public void testScopeLengthIsInvalidWhenIsTooLong() {
         // Given
-        GoogleAuthRequest googleAuthRequest = createValidGoogleAuthRequest();
-        GoogleAuth googleAuth = googleAuthRequest.getGoogleAuth();
 
         //When
         googleAuth.setScope("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
@@ -257,18 +202,12 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        assertThat(constraintViolations.size(), is(1));
-
-        String propertyThatFails = constraintViolations.get(0).getPropertyPath().toString();
-
-        assertThat(propertyThatFails, is("scope"));
+        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "scope");
     }
 
     @Test
     public void testExpiresInLengthIsInvalidWhenIsTooShort() {
         // Given
-        GoogleAuthRequest googleAuthRequest = createValidGoogleAuthRequest();
-        GoogleAuth googleAuth = googleAuthRequest.getGoogleAuth();
 
         // When
         googleAuth.setExpiresIn("");
@@ -277,18 +216,12 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        assertThat(constraintViolations.size(), is(1));
-
-        String propertyThatFails = constraintViolations.get(0).getPropertyPath().toString();
-
-        assertThat(propertyThatFails, is("expiresIn"));
+        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "expiresIn");
     }
 
     @Test
     public void testExpiresInLengthIsInvalidWhenIsTooLong() {
         // Given
-        GoogleAuthRequest googleAuthRequest = createValidGoogleAuthRequest();
-        GoogleAuth googleAuth = googleAuthRequest.getGoogleAuth();
 
         //When
         googleAuth.setExpiresIn("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
@@ -297,18 +230,12 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        assertThat(constraintViolations.size(), is(1));
-
-        String propertyThatFails = constraintViolations.get(0).getPropertyPath().toString();
-
-        assertThat(propertyThatFails, is("expiresIn"));
+        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "expiresIn");
     }
 
     @Test
     public void testFirstIssuedAtLengthIsvalidWhenIsTooShort() {
         // Given
-        GoogleAuthRequest googleAuthRequest = createValidGoogleAuthRequest();
-        GoogleAuth googleAuth = googleAuthRequest.getGoogleAuth();
 
         //Where
         googleAuth.setFirstIssuedAt("");
@@ -317,18 +244,12 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        assertThat(constraintViolations.size(), is(1));
-
-        String propertyThatFails = constraintViolations.get(0).getPropertyPath().toString();
-
-        assertThat(propertyThatFails, is("firstIssuedAt"));
+        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "firstIssuedAt");
     }
 
     @Test
     public void testFirstIssuedAtLengthIsInvalidWhenIsTooLong() {
         // Given
-        GoogleAuthRequest googleAuthRequest = createValidGoogleAuthRequest();
-        GoogleAuth googleAuth = googleAuthRequest.getGoogleAuth();
 
         // When
         googleAuth.setFirstIssuedAt("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
@@ -337,18 +258,12 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        assertThat(constraintViolations.size(), is(1));
-
-        String propertyThatFails = constraintViolations.get(0).getPropertyPath().toString();
-
-        assertThat(propertyThatFails, is("firstIssuedAt"));
+        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "firstIssuedAt");
     }
 
     @Test
     public void testExpiresAtLengthIsInvalidWhenIsTooShort() {
         // Given
-        GoogleAuthRequest googleAuthRequest = createValidGoogleAuthRequest();
-        GoogleAuth googleAuth = googleAuthRequest.getGoogleAuth();
 
         // When
         googleAuth.setExpiresAt("");
@@ -357,18 +272,12 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        assertThat(constraintViolations.size(), is(1));
-
-        String propertyThatFails = constraintViolations.get(0).getPropertyPath().toString();
-
-        assertThat(propertyThatFails, is("expiresAt"));
+        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "expiresAt");
     }
 
     @Test
     public void testExpiresAtLengthIsInvalidWhenIsTooLong() {
         // Given
-        GoogleAuthRequest googleAuthRequest = createValidGoogleAuthRequest();
-        GoogleAuth googleAuth = googleAuthRequest.getGoogleAuth();
 
         //When
         googleAuth.setExpiresAt("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
@@ -377,11 +286,15 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        assertThat(constraintViolations.size(), is(1));
+        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "expiresAt");
+    }
 
-        String propertyThatFails = constraintViolations.get(0).getPropertyPath().toString();
+    private static void checkThatOnlyThisPropertyFails(int size, Path propertyPath, String name) {
+        assertThat(size, is(1));
 
-        assertThat(propertyThatFails, is("expiresAt"));
+        String propertyThatFais = propertyPath.toString();
+
+        assertThat(propertyThatFais, is(name));
     }
 
     private GoogleAuthRequest createValidGoogleAuthRequest() {
