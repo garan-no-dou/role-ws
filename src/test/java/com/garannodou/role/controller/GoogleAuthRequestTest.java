@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.Path;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
@@ -14,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -39,13 +39,13 @@ public class GoogleAuthRequestTest {
         //Given
 
         //When
-        googleBasicProfile.setName("u");
+        googleBasicProfile.setName("");
 
         //Then
         List<ConstraintViolation<GoogleAuthRequest.GoogleBasicProfile>> constraintViolations =
                 new ArrayList<>(validator.validate(googleBasicProfile));
 
-        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "name");
+        checkThatOnlyThisPropertyFails(constraintViolations, "name");
     }
 
     @Test
@@ -59,7 +59,7 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleBasicProfile>> constraintViolations =
                 new ArrayList<>(validator.validate(googleBasicProfile));
 
-        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "name");
+        checkThatOnlyThisPropertyFails(constraintViolations, "name");
     }
 
     @Test
@@ -67,13 +67,13 @@ public class GoogleAuthRequestTest {
         //Given
 
         //When
-        googleBasicProfile.setGivenName("u");
+        googleBasicProfile.setGivenName("");
 
         //Then
         List<ConstraintViolation<GoogleAuthRequest.GoogleBasicProfile>> constraintViolations =
                 new ArrayList<>(validator.validate(googleBasicProfile));
 
-        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "givenName");
+        checkThatOnlyThisPropertyFails(constraintViolations, "givenName");
     }
 
     @Test
@@ -87,7 +87,7 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleBasicProfile>> constraintViolations =
                 new ArrayList<>(validator.validate(googleBasicProfile));
 
-        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "givenName");
+        checkThatOnlyThisPropertyFails(constraintViolations, "givenName");
     }
 
     @Test
@@ -95,13 +95,13 @@ public class GoogleAuthRequestTest {
         //Given
 
         //When
-        googleBasicProfile.setFamilyName("u");
+        googleBasicProfile.setFamilyName("");
 
         //Then
         List<ConstraintViolation<GoogleAuthRequest.GoogleBasicProfile>> constraintViolations =
                 new ArrayList<>(validator.validate(googleBasicProfile));
 
-        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "familyName");
+        checkThatOnlyThisPropertyFails(constraintViolations, "familyName");
     }
 
     @Test
@@ -115,7 +115,7 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleBasicProfile>> constraintViolations =
                 new ArrayList<>(validator.validate(googleBasicProfile));
 
-        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "familyName");
+        checkThatOnlyThisPropertyFails(constraintViolations, "familyName");
     }
 
     /*
@@ -126,13 +126,13 @@ public class GoogleAuthRequestTest {
         // Given
 
         // When
-        googleAuth.setAccessToken("u");
+        googleAuth.setAccessToken("");
 
         // Then
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "accessToken");
+        checkThatOnlyThisPropertyFails(constraintViolations, "accessToken");
     }
 
     @Test
@@ -146,7 +146,7 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "accessToken");
+        checkThatOnlyThisPropertyFails(constraintViolations, "accessToken");
     }
 
     @Test
@@ -154,13 +154,13 @@ public class GoogleAuthRequestTest {
         // Given
 
         // When
-        googleAuth.setIdToken("u");
+        googleAuth.setIdToken("");
 
         // Then
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "idToken");
+        checkThatOnlyThisPropertyFails(constraintViolations, "idToken");
     }
 
     @Test
@@ -174,7 +174,7 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "idToken");
+        checkThatOnlyThisPropertyFails(constraintViolations, "idToken");
     }
 
     @Test
@@ -188,7 +188,7 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "scope");
+        checkThatOnlyThisPropertyFails(constraintViolations, "scope");
     }
 
     @Test
@@ -202,7 +202,7 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "scope");
+        checkThatOnlyThisPropertyFails(constraintViolations, "scope");
     }
 
     @Test
@@ -216,7 +216,7 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "expiresIn");
+        checkThatOnlyThisPropertyFails(constraintViolations, "expiresIn");
     }
 
     @Test
@@ -230,7 +230,7 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "expiresIn");
+        checkThatOnlyThisPropertyFails(constraintViolations, "expiresIn");
     }
 
     @Test
@@ -244,7 +244,7 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "firstIssuedAt");
+        checkThatOnlyThisPropertyFails(constraintViolations, "firstIssuedAt");
     }
 
     @Test
@@ -258,7 +258,7 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "firstIssuedAt");
+        checkThatOnlyThisPropertyFails(constraintViolations, "firstIssuedAt");
     }
 
     @Test
@@ -272,7 +272,7 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "expiresAt");
+        checkThatOnlyThisPropertyFails(constraintViolations, "expiresAt");
     }
 
     @Test
@@ -286,15 +286,16 @@ public class GoogleAuthRequestTest {
         List<ConstraintViolation<GoogleAuthRequest.GoogleAuth>> constraintViolations =
                 new ArrayList<>(validator.validate(googleAuth));
 
-        checkThatOnlyThisPropertyFails(constraintViolations.size(), constraintViolations.get(0).getPropertyPath(), "expiresAt");
+        checkThatOnlyThisPropertyFails(constraintViolations, "expiresAt");
     }
 
-    private static void checkThatOnlyThisPropertyFails(int size, Path propertyPath, String name) {
-        assertThat(size, is(1));
+    private static <T> void checkThatOnlyThisPropertyFails(List<ConstraintViolation<T>> constraintViolations,
+                                                       String expectedProperty) {
+        assertThat(constraintViolations.size(), greaterThan(0));
 
-        String propertyThatFais = propertyPath.toString();
+        String propertyThatFais = constraintViolations.get(0).getPropertyPath().toString();
 
-        assertThat(propertyThatFais, is(name));
+        assertThat(propertyThatFais, is(expectedProperty));
     }
 
     private GoogleAuthRequest createValidGoogleAuthRequest() {

@@ -26,17 +26,17 @@ public class GoogleAuthRequest {
         @NotNull
         @Pattern(regexp = "^[a-zA-Z0-9-_\\s]+$",
                 message= "Name has invalid format. Expected format: ^[a-zA-Z0-9-_\\s]+$")
-        @Size(min = 10, max = 50)
+        @Size(min = 1, max = 150)
         private String name;
         @NotNull
         @Pattern(regexp = "^[a-zA-Z0-9-_\\s]+$",
                 message = "GivenName has invalid format. Expected format: ^[a-zA-Z0-9-_\\s]+$")
-        @Size(min = 10, max = 50)
+        @Size(min = 1, max = 150)
         private String givenName;
         @NotNull
         @Pattern(regexp = "^[a-zA-Z0-9-_\\s]+$",
                 message = "FamilyName has invalid format. Expected format: ^[a-zA-Z0-9-_\\s]+$")
-        @Size(min = 10, max = 100)
+        @Size(min = 1, max = 150)
         private String familyName;
         @NotNull
         @URL
@@ -55,22 +55,22 @@ public class GoogleAuthRequest {
     public class GoogleAuth {
         // TODO: Add validations to each field, once the content is clearer.
         @NotNull
-        @Size(min = 10, max = 100)
+        @Size(min = 1, max = 150)
         private String accessToken;
         @NotNull
-        @Size(min = 10, max = 100)
+        @Size(min = 1, max = 150)
         private String idToken;
         @NotNull
-        @Size(min = 1, max = 100)
+        @Size(min = 1, max = 150)
         private String scope;
         @NotNull
-        @Size(min = 1, max = 100)
+        @Size(min = 1, max = 150)
         private String expiresIn;
         @NotNull
-        @Size(min = 1, max = 100)
+        @Size(min = 1, max = 150)
         private String firstIssuedAt;
         @NotNull
-        @Size(min = 1, max = 100)
+        @Size(min = 1, max = 150)
         private String expiresAt;
 
         public GoogleAuth() {
