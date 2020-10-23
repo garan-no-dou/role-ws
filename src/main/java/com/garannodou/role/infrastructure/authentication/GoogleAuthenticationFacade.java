@@ -5,7 +5,6 @@ import com.garannodou.role.controller.GoogleAuthRequest.GoogleBasicProfile;
 import com.garannodou.role.domain.User;
 import com.garannodou.role.service.UserCreateDTO;
 import com.garannodou.role.service.UserService;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -13,20 +12,19 @@ import java.net.URI;
 import java.util.Optional;
 
 import static com.garannodou.role.infrastructure.authentication.JWTGenerator.TokenGenerationParams;
-import static io.jsonwebtoken.SignatureAlgorithm.HS256;
 
 @Service
 public class GoogleAuthenticationFacade {
 
     private final UserService userService;
     private final JWTGenerator jwtGenerator;
-    private final String url;
+    private final String backendUrl;
 
     public GoogleAuthenticationFacade(UserService userService, JWTGenerator jwtGenerator,
-                                      @Value("${app.backend.url}") String url) {
+                                      @Value("${app.backend.url}") String backendUrl) {
         this.userService = userService;
         this.jwtGenerator = jwtGenerator;
-        this.url = url;
+        this.backendUrl = backendUrl;
     }
 
     public String authenticate(GoogleAuthRequest googleAuthRequest) {
@@ -43,8 +41,7 @@ public class GoogleAuthenticationFacade {
         }
 
         return jwtGenerator.generateTokenForUser(new TokenGenerationParams(user.getId(),
-                Keys.secretKeyFor(HS256),  // TODO: Extract key to env var
-                url,
+                backendUrl,
                 "user"));
     }
 

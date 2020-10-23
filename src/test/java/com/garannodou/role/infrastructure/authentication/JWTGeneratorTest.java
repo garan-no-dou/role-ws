@@ -7,6 +7,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.crypto.SecretKey;
@@ -14,20 +15,29 @@ import java.util.UUID;
 
 import static io.jsonwebtoken.SignatureAlgorithm.HS256;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.setRemoveAssertJRelatedElementsFromStackTrace;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class JWTGeneratorTest {
 
     public static final UUID USER_ID = UUID.fromString("8766baca-1528-47de-a67e-22cabb9390eb");
+    private SecretKeyRepository secretKeyRepository;
+
+
+    @BeforeEach
+    void setUp() {
+        secretKeyRepository = mock(SecretKeyRepository.class);
+    }
 
     @Test
     public void shouldGenerateJWTForUser() {
         // Given
-        JWTGenerator generator = new JWTGenerator();
         SecretKey key = Keys.secretKeyFor(HS256);
+        when(secretKeyRepository.getSecretKey()).thenReturn(key);
+        JWTGenerator generator = new JWTGenerator(secretKeyRepository);
 
         // When
-        String token = generator.generateTokenForUser(generateTokenParams(key));
+        String token = generator.generateTokenForUser(generateTokenParams());
 
         // Then
         Claims claims = decodeJWT(key, token);
@@ -37,22 +47,23 @@ class JWTGeneratorTest {
     }
 
     @Test
-    public void shouldFailIfTokenIsSignedWithDifferentKey() {
+    public void shouldFailWhenDecodingIfTokenIsSignedWithDifferentKey() {
         // Given
-        JWTGenerator generator = new JWTGenerator();
         SecretKey secretKeyA = Keys.secretKeyFor(HS256);
         SecretKey anotherSecretKey = Keys.secretKeyFor(HS256);
+        when(secretKeyRepository.getSecretKey()).thenReturn(secretKeyA);
+        JWTGenerator generator = new JWTGenerator(secretKeyRepository);
 
         // When
-        String token = generator.generateTokenForUser(generateTokenParams(secretKeyA));
+        String token = generator.generateTokenForUser(generateTokenParams());
+
         // Then
         Assertions.assertThrows(SignatureException.class,
                 () -> decodeJWT(anotherSecretKey, token));
     }
 
-    private TokenGenerationParams generateTokenParams(SecretKey secretKeyA) {
+    private TokenGenerationParams generateTokenParams() {
         return new TokenGenerationParams(USER_ID,
-                secretKeyA,
                 "localhost",
                 "user");
     }
