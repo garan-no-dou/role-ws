@@ -14,6 +14,12 @@ import java.util.UUID;
 @Service
 public class JWTGenerator {
 
+    private final SecretKeyRepository secretKeyRepository;
+
+    public JWTGenerator(SecretKeyRepository secretKeyRepository) {
+        this.secretKeyRepository = secretKeyRepository;
+    }
+
     public String generateTokenForUser(TokenGenerationParams params) {
         LocalDateTime expirationDate = LocalDateTime.now().plusDays(7); // FIXME: Don't use "now()"
         Date expirationDateUTC = Date.from(expirationDate.toInstant(ZoneOffset.UTC));
@@ -23,7 +29,7 @@ public class JWTGenerator {
                 .setSubject(params.userId.toString())
                 .setExpiration(expirationDateUTC)
                 .claim("scope", params.scope)
-                .signWith(params.key)
+                .signWith(secretKeyRepository.getSecretKey())
                 .compact();
 
         return jwt;
@@ -33,7 +39,6 @@ public class JWTGenerator {
     @AllArgsConstructor
     static class TokenGenerationParams {
         private UUID userId;
-        private SecretKey key;
         private String url;
         private String scope;
     }

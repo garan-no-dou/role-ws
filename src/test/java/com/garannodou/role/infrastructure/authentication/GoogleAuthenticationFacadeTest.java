@@ -82,6 +82,10 @@ class GoogleAuthenticationFacadeTest {
 
 class JWTGeneratorStub extends JWTGenerator {
 
+    JWTGeneratorStub() {
+        super(null);
+    }
+
     @Override
     public String generateTokenForUser(TokenGenerationParams params) {
         return "json-web-token";
